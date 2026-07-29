@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adriana & Rodrigo — Engagement Celebration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine:#5c1a2b;
+    --wine-deep:#3b0f1c;
+    --blush:#e3aab5;
+    --blush-soft:#f1d3d8;
+    --cream:#faf3e6;
+    --cream-deep:#f2e6d3;
+    --sage:#6f7d5c;
+    --gold:#b8925a;
+    --ink:#3a2a2c;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Cormorant Garamond', serif;
+    font-size:19px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  .eyebrow{
+    font-family:'Cormorant Garamond', serif;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    font-size:13px;
+    font-weight:600;
+    color:var(--gold);
+  }
+  .script{ font-family:'Mrs Saint Delafield', cursive; font-weight:400; }
+  .display{ font-family:'Playfair Display', serif; }
+
+  /* ---------- reveal-on-scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- vine divider (signature element) ---------- */
+  .vine-wrap{ display:flex; justify-content:center; padding:6px 0; }
+  .vine-wrap svg{ width:min(640px, 86vw); height:auto; overflow:visible; }
+  .vine-path{
+    fill:none; stroke:var(--sage); stroke-width:1.4;
+    stroke-linecap:round; stroke-dasharray:900; stroke-dashoffset:900;
+    transition:stroke-dashoffset 1.8s ease;
+  }
+  .vine-wrap.in .vine-path{ stroke-dashoffset:0; }
+  .vine-leaf, .vine-bloom{
+    opacity:0; transform:scale(.4);
+    transform-box:fill-box; transform-origin:center;
+    transition:opacity .9s ease .9s, transform .9s ease .9s;
+  }
+  .vine-wrap.in .vine-leaf, .vine-wrap.in .vine-bloom{ opacity:1; transform:scale(1); }
+
+  /* ================= HERO ================= */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center;
+    padding:8vh 6vw 6vh;
+    background:
+      radial-gradient(ellipse at 50% 0%, var(--blush-soft) 0%, transparent 55%),
+      var(--cream);
+    overflow:hidden;
+  }
+  .hero-frame{
+    position:absolute; inset:22px;
+    border:1px solid rgba(184,146,90,.55);
+    pointer-events:none;
+  }
+  .hero-frame::before, .hero-frame::after{
+    content:""; position:absolute; width:34px; height:34px;
+    border-color:var(--gold); border-style:solid;
+  }
+  .corner-tl{top:22px; left:22px; border-width:2px 0 0 2px;}
+  .corner-br{bottom:22px; right:22px; border-width:0 2px 2px 0;}
+  .hero .eyebrow{ opacity:0; animation:fadeUp .9s ease .2s forwards; }
+  .hero-names{
+    font-size:clamp(30px, 5vw, 46px);
+    letter-spacing:.06em;
+    margin:.5em 0 0;
+    color:var(--wine);
+    opacity:0; animation:fadeUp 1s ease .45s forwards;
+  }
+  .hero-script{
+    font-size:clamp(56px, 12vw, 128px);
+    line-height:1;
+    color:var(--wine);
+    margin:.15em 0;
+    opacity:0; animation:fadeUp 1.1s ease .7s forwards;
+  }
+  .hero-sub{
+    max-width:440px; margin:.4em auto 0; color:#6b4a4f;
+    font-size:17px; font-style:italic;
+    opacity:0; animation:fadeUp 1s ease .95s forwards;
+  }
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(16px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .scroll-cue{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    color:var(--wine); opacity:0; animation:fadeUp 1s ease 1.3s forwards;
+  }
+  .scroll-cue span{ font-size:11px; letter-spacing:.28em; text-transform:uppercase; }
+  .scroll-cue .line{ width:1px; height:34px; background:var(--gold); position:relative; overflow:hidden;}
+  .scroll-cue .line::after{
+    content:""; position:absolute; top:-100%; left:0; width:100%; height:100%;
+    background:var(--wine); animation:drip 1.8s ease-in-out infinite;
+  }
+  @keyframes drip{ 0%{top:-100%;} 60%{top:100%;} 100%{top:100%;} }
+
+  /* ================= CELEBRATE ================= */
+  .celebrate{
+    background:var(--wine);
+    color:var(--cream);
+    display:flex; justify-content:center;
+    padding:10vh 6vw 12vh;
+  }
+  .arch{
+    position:relative;
+    width:min(480px, 100%);
+    background:var(--cream-deep);
+    color:var(--wine-deep);
+    border-radius:220px 220px 8px 8px;
+    padding:64px 42px 52px;
+    text-align:center;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.45);
+  }
+  .arch .script{ font-size:clamp(34px,6vw,44px); color:var(--wine); margin:0 0 .3em; }
+  .arch .names{
+    font-size:15px; letter-spacing:.34em; text-transform:uppercase;
+    color:var(--wine); margin:0 0 .5em; font-family:'Cormorant Garamond',serif; font-weight:600;
+  }
+  .arch .occasion{ font-size:clamp(32px,5.6vw,42px); color:var(--wine); margin:0 0 .35em; }
+  .arch .date{
+    font-family:'Playfair Display', serif; font-size:24px; letter-spacing:.05em;
+    color:var(--wine-deep); margin:.2em 0 .7em;
+  }
+  .arch .addr{ font-size:16px; line-height:1.5; margin:0 0 1.2em; color:#5a3a3e;}
+  .arch hr{ border:none; border-top:1px solid rgba(92,26,43,.25); width:60px; margin:1.1em auto;}
+  .arch .note{
+    font-size:13px; letter-spacing:.03em; color:#6b4a4f; margin:0 0 1em;
+  }
+  .arch .time{
+    font-family:'Playfair Display', serif; font-size:22px; color:var(--wine); margin-top:.6em;
+  }
+  .arch .rings{ margin:0 auto 6px; width:52px; display:block; opacity:.85;}
+
+  /* ================= DETAILS ================= */
+  .details{
+    background:var(--cream);
+    padding:10vh 6vw 8vh;
+  }
+  .details-head{ text-align:center; max-width:560px; margin:0 auto 3.5em; }
+  .details-head h2{
+    font-family:'Playfair Display', serif; font-style:italic; font-weight:500;
+    font-size:clamp(26px,4vw,32px); color:var(--wine); margin:.3em 0 0;
+  }
+  .card-row{
+    display:flex; gap:32px; max-width:920px; margin:0 auto; flex-wrap:wrap;
+    justify-content:center;
+  }
+  .card{
+    flex:1 1 340px; max-width:420px;
+    background:var(--cream-deep);
+    border:1px solid rgba(184,146,90,.4);
+    border-radius:4px;
+    padding:38px 36px;
+    position:relative;
+  }
+  .card::before{
+    content:""; position:absolute; inset:8px;
+    border:1px solid rgba(184,146,90,.28);
+    pointer-events:none;
+  }
+  .card h3{
+    font-family:'Playfair Display', serif; color:var(--wine); font-weight:600;
+    font-size:20px; letter-spacing:.02em; margin:0 0 .5em;
+  }
+  .card p{ margin:0; color:#5a4448; font-size:17px; }
+  .card .icon{ width:30px; height:30px; margin-bottom:14px; color:var(--sage); }
+
+  .parking-note{
+    text-align:center; max-width:520px; margin:3.2em auto 0;
+    font-size:15px; font-style:italic; color:#7a5b5f;
+  }
+
+  /* ================= RSVP ================= */
+  .rsvp-section{
+    background:linear-gradient(180deg, var(--cream) 0%, var(--blush-soft) 100%);
+    padding:10vh 6vw 12vh;
+    display:flex; justify-content:center;
+  }
+  .rsvp-wrap{ max-width:480px; width:100%; text-align:center; }
+  .rsvp-wrap .script{ font-size:clamp(40px,7vw,56px); color:var(--wine); margin:0 0 .1em; }
+  .rsvp-wrap .deadline{
+    font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--wine);
+    margin:0 0 2em;
+  }
+  form{
+    background:#fffdf9; border:1px solid rgba(184,146,90,.4);
+    border-radius:6px; padding:40px 34px;
+    box-shadow:0 24px 48px -24px rgba(59,15,28,.25);
+    text-align:left;
+  }
+  .field{ margin-bottom:24px; }
+  .field label{
+    display:block; font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--wine); margin-bottom:8px; font-weight:600;
+  }
+  .field input[type=text]{
+    width:100%; padding:12px 14px; font-family:'Cormorant Garamond',serif; font-size:17px;
+    border:1px solid #d8c6ac; border-radius:3px; background:#fffefb; color:var(--ink);
+  }
+  .field input[type=text]:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .choice-row{ display:flex; flex-direction:column; gap:10px; }
+  .choice{
+    display:flex; align-items:center; gap:10px;
+    border:1px solid #d8c6ac; border-radius:3px; padding:12px 14px;
+    cursor:pointer; font-size:16px; transition:border-color .2s, background .2s;
+  }
+  .choice:hover{ border-color:var(--gold); }
+  .choice input{ accent-color:var(--wine); }
+  .choice.selected{ background:var(--blush-soft); border-color:var(--wine); }
+  .submit-btn{
+    width:100%; padding:15px; margin-top:6px;
+    background:var(--wine); color:var(--cream); border:none; border-radius:3px;
+    font-family:'Cormorant Garamond', serif; font-size:18px; letter-spacing:.06em;
+    text-transform:uppercase; cursor:pointer; transition:background .25s, transform .15s;
+  }
+  .submit-btn:hover{ background:var(--wine-deep); }
+  .submit-btn:active{ transform:scale(.98); }
+  .submit-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .hint{ font-size:12px; color:#8a7275; text-align:center; margin-top:14px; }
+
+  .thankyou{
+    display:none; text-align:center; padding:50px 20px;
+  }
+  .thankyou.show{ display:block; }
+  .thankyou .script{ font-size:clamp(34px,6vw,44px); color:var(--wine); margin:0 0 .2em; }
+  .thankyou p{ color:#5a4448; }
+
+  footer{
+    background:var(--wine-deep); color:var(--blush-soft);
+    text-align:center; padding:48px 20px 40px;
+  }
+  footer .script{ font-size:30px; color:var(--blush); margin:0 0 .1em; }
+  footer p{ font-size:14px; letter-spacing:.05em; color:#c9a3ab; margin:0; }
+
+  @media (max-width:480px){
+    body{ font-size:17px; }
+    .arch{ padding:52px 26px 42px; border-radius:160px 160px 8px 8px; }
+    form{ padding:32px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-frame"><span class="corner-tl"></span><span class="corner-br"></span></div>
+  <p class="eyebrow">An Engagement Celebration</p>
+  <p class="hero-names display">Adriana &amp; Rodrigo</p>
+  <p class="hero-script script">You're invited</p>
+  <p class="hero-sub">We're getting married — and before we do, we'd love for you to raise a glass with us in the garden.</p>
+  <div class="scroll-cue">
+    <span>Scroll to open</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- ================= CELEBRATE ================= -->
+<section class="celebrate">
+  <div class="arch reveal">
+    <svg class="rings" viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="1.4">
+      <circle cx="22" cy="24" r="12"/><circle cx="36" cy="24" r="12"/>
+      <path d="M29 10 L33 4 L37 10 L33 8 Z"/>
+    </svg>
+    <p class="script">Let's Celebrate</p>
+    <p class="names">Adriana &amp; Rodrigo</p>
+    <p class="occasion script">Engagement Party</p>
+    <p class="date">November 14, 2026</p>
+    <p class="addr">19955 SW 296th Street<br>Homestead, FL 33030</p>
+    <hr>
+    <p class="note"><strong>Attire —</strong> Garden Cocktail<br>This is an outdoor event on grass; please dress accordingly.</p>
+    <p class="note"><strong>Parking —</strong> Limited on site. Uber, Lyft, and carpooling are greatly appreciated.</p>
+    <p class="time">5:00 PM</p>
+  </div>
+</section>
+
+<!-- ================= VINE DIVIDER ================= -->
+<div class="vine-wrap reveal">
+  <svg viewBox="0 0 640 60" fill="none">
+    <path class="vine-path" d="M10 30 C 120 -10, 220 70, 320 30 S 520 -10, 630 30" />
+    <g class="vine-leaf" stroke="#6f7d5c" stroke-width="1.3" fill="none">
+      <path d="M120 22 C 128 10, 142 10, 148 22 C 142 30, 128 30, 120 22 Z"/>
+    </g>
+    <g class="vine-leaf" stroke="#6f7d5c" stroke-width="1.3" fill="none">
+      <path d="M420 34 C 428 22, 442 22, 448 34 C 442 42, 428 42, 420 34 Z"/>
+    </g>
+    <g class="vine-bloom" stroke="#b8925a" stroke-width="1.1" fill="none">
+      <circle cx="320" cy="30" r="6"/><circle cx="312" cy="24" r="6"/><circle cx="328" cy="24" r="6"/><circle cx="320" cy="20" r="6"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ================= DETAILS ================= -->
+<section class="details">
+  <div class="details-head reveal">
+    <p class="eyebrow">A Few Notes</p>
+    <h2>Garden-inspired, from head to table</h2>
+  </div>
+  <div class="card-row">
+    <div class="card reveal">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c3 2 3 6 0 9-3-3-3-7 0-9Z"/><path d="M12 12v9"/><path d="M12 15c-3-1-5 1-6 3"/><path d="M12 15c3-1 5 1 6 3"/></svg>
+      <h3>Attire</h3>
+      <p>Think romantic, elegant, and garden-inspired — soft fabrics, breathable layers, and shoes that won't sink into the lawn. It's cocktail dress, styled for an evening outdoors.</p>
+    </div>
+    <div class="card reveal">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3v7a3 3 0 0 0 6 0V3"/><path d="M8 10v11"/><path d="M18 3c-2 2-2 5 0 7 2-2 2-5 0-7Z"/><path d="M18 10v11"/></svg>
+      <h3>Come hungry</h3>
+      <p>An abundance of delicious bites and a full seated meal will be served — plus a toast to the two of us. Come with an appetite and leave room for cake.</p>
+    </div>
+  </div>
+  <p class="parking-note reveal">Parking on site is limited, so carpooling or arranging a rideshare is truly appreciated — one less thing to think about that evening.</p>
+</section>
+
+<!-- ================= RSVP ================= -->
+<section class="rsvp-section" id="rsvp">
+  <div class="rsvp-wrap reveal">
+    <p class="script">Celebrate with us</p>
+    <p class="deadline">Kindly RSVP by October 2, 2026</p>
+
+    <form id="rsvpForm">
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" name="name" required autocomplete="name" placeholder="First and last name">
+      </div>
+
+      <div class="field">
+        <label>Are you coming?</label>
+        <div class="choice-row" role="radiogroup" aria-label="Are you coming?">
+          <label class="choice" data-choice>
+            <input type="radio" name="attending" value="yes" required> Absolutely, wouldn't miss it!
+          </label>
+          <label class="choice" data-choice>
+            <input type="radio" name="attending" value="no"> Can't make it this time.
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="song">Nominate a song for our playlist</label>
+        <input type="text" id="song" name="song" placeholder="Song title & artist">
+      </div>
+
+      <button type="submit" class="submit-btn">RSVP now</button>
+      <p class="hint">Your response is shared only with Adriana &amp; Rodrigo.</p>
+    </form>
+
+    <div class="thankyou" id="thankyou">
+      <p class="script">Thank you!</p>
+      <p id="thankyouMsg">We've got your response and can't wait to celebrate with you.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="script">Adriana &amp; Rodrigo</p>
+  <p>11.14.2026 &nbsp;·&nbsp; Homestead, Florida</p>
+</footer>
+
+<script>
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal, .vine-wrap');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold:0.2 });
+  revealEls.forEach(el=>io.observe(el));
+
+  // choice highlight
+  document.querySelectorAll('.choice').forEach(label=>{
+    const input = label.querySelector('input');
+    input.addEventListener('change', ()=>{
+      document.querySelectorAll('.choice').forEach(l=>l.classList.remove('selected'));
+      label.classList.add('selected');
+    });
+  });
+
+  // RSVP submit
+  const form = document.getElementById('rsvpForm');
+  const thankyou = document.getElementById('thankyou');
+  const thankyouMsg = document.getElementById('thankyouMsg');
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const attending = form.querySelector('input[name="attending"]:checked')?.value;
+    const song = document.getElementById('song').value.trim();
+
+    const entry = { name, attending, song, submittedAt: new Date().toISOString() };
+    const key = 'rsvp:' + Date.now() + ':' + Math.random().toString(36).slice(2,8);
+
+    try{
+      if(window.storage && window.storage.set){
+        await window.storage.set(key, JSON.stringify(entry), true);
+      }
+    }catch(err){
+      console.error('Could not save RSVP', err);
+    }
+
+    thankyouMsg.textContent = attending === 'no'
+      ? `Thank you for letting us know, ${name || 'friend'} — you'll be missed!`
+      : `Thanks, ${name || 'friend'}! We've got your response and can't wait to celebrate with you.`;
+
+    form.style.display = 'none';
+    thankyou.classList.add('show');
+  });
+</script>
+</body>
+</html>
