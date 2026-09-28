@@ -6,7 +6,7 @@
 <title>Adriana & Rodrigo — Engagement Celebration</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --wine:#5c1a2b;
@@ -43,7 +43,7 @@
     font-weight:600;
     color:var(--gold);
   }
-  .script{ font-family:'Mrs Saint Delafield', cursive; font-weight:400; }
+  .script{ font-family:'Great Vibes', cursive; font-weight:400; }
   .display{ font-family:'Playfair Display', serif; }
 
   /* ---------- reveal-on-scroll ---------- */
@@ -83,17 +83,6 @@
       var(--cream);
     overflow:hidden;
   }
-  .hero-frame{
-    position:absolute; inset:22px;
-    border:1px solid rgba(184,146,90,.55);
-    pointer-events:none;
-  }
-  .hero-frame::before, .hero-frame::after{
-    content:""; position:absolute; width:34px; height:34px;
-    border-color:var(--gold); border-style:solid;
-  }
-  .corner-tl{top:22px; left:22px; border-width:2px 0 0 2px;}
-  .corner-br{bottom:22px; right:22px; border-width:0 2px 2px 0;}
   .hero .eyebrow{ opacity:0; animation:fadeUp .9s ease .2s forwards; }
   .hero-names{
     font-size:clamp(30px, 5vw, 46px);
@@ -141,10 +130,14 @@
   .arch{
     position:relative;
     width:min(480px, 100%);
+    min-height:600px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
     background:var(--cream-deep);
     color:var(--wine-deep);
-    border-radius:220px 220px 8px 8px;
-    padding:64px 42px 52px;
+    border-radius:260px 260px 12px 12px;
+    padding:70px 42px 60px;
     text-align:center;
     box-shadow:0 30px 60px -20px rgba(0,0,0,.45);
   }
@@ -284,7 +277,7 @@
 
   @media (max-width:480px){
     body{ font-size:17px; }
-    .arch{ padding:52px 26px 42px; border-radius:160px 160px 8px 8px; }
+    .arch{ min-height:500px; padding:56px 26px 46px; border-radius:200px 200px 10px 10px; }
     form{ padding:32px 22px; }
   }
 </style>
@@ -293,7 +286,6 @@
 
 <!-- ================= HERO ================= -->
 <section class="hero">
-  <div class="hero-frame"><span class="corner-tl"></span><span class="corner-br"></span></div>
   <p class="eyebrow">An Engagement Celebration</p>
   <p class="hero-names display">Adriana &amp; Rodrigo</p>
   <p class="hero-script script">You're invited</p>
@@ -307,9 +299,17 @@
 <!-- ================= CELEBRATE ================= -->
 <section class="celebrate">
   <div class="arch reveal">
-    <svg class="rings" viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="1.4">
-      <circle cx="22" cy="24" r="12"/><circle cx="36" cy="24" r="12"/>
-      <path d="M29 10 L33 4 L37 10 L33 8 Z"/>
+    <svg class="rings" viewBox="0 0 60 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+      <!-- band -->
+      <circle cx="28" cy="42" r="14"/>
+      <!-- gem -->
+      <path d="M28 14 L20 26 L28 34 L36 26 Z"/>
+      <path d="M20 26 L36 26"/>
+      <path d="M24 26 L28 14 L28 34"/>
+      <path d="M32 26 L28 14"/>
+      <!-- sparkle -->
+      <path d="M45 12 L47 7" stroke-width="1.1"/>
+      <path d="M42 9 L50 9" stroke-width="1.1"/>
     </svg>
     <p class="script">Let's Celebrate</p>
     <p class="names">Adriana &amp; Rodrigo</p>
@@ -317,9 +317,7 @@
     <p class="date">November 14, 2026</p>
     <p class="addr">19955 SW 296th Street<br>Homestead, FL 33030</p>
     <hr>
-    <p class="note"><strong>Attire —</strong> Garden Cocktail<br>This is an outdoor event on grass; please dress accordingly.</p>
-    <p class="note"><strong>Parking —</strong> Limited on site. Uber, Lyft, and carpooling are greatly appreciated.</p>
-    <p class="time">5:00 PM</p>
+    <p class="time">6:00 PM</p>
   </div>
 </section>
 
@@ -347,24 +345,21 @@
   </div>
   <div class="card-row">
     <div class="card reveal">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c3 2 3 6 0 9-3-3-3-7 0-9Z"/><path d="M12 12v9"/><path d="M12 15c-3-1-5 1-6 3"/><path d="M12 15c3-1 5 1 6 3"/></svg>
-      <h3>Attire</h3>
+      <h3>Attire 👗</h3>
       <p>Think romantic, elegant, and garden-inspired — soft fabrics, breathable layers, and shoes that won't sink into the lawn. It's cocktail dress, styled for an evening outdoors.</p>
     </div>
     <div class="card reveal">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3v7a3 3 0 0 0 6 0V3"/><path d="M8 10v11"/><path d="M18 3c-2 2-2 5 0 7 2-2 2-5 0-7Z"/><path d="M18 10v11"/></svg>
-      <h3>Come hungry</h3>
-      <p>An abundance of delicious bites and a full seated meal will be served — plus a toast to the two of us. Come with an appetite and leave room for cake.</p>
+      <h3>Parking 🚗</h3>
+      <p>Parking on site is limited, so carpooling or arranging a rideshare is truly appreciated — one less thing to think about that evening.</p>
     </div>
   </div>
-  <p class="parking-note reveal">Parking on site is limited, so carpooling or arranging a rideshare is truly appreciated — one less thing to think about that evening.</p>
 </section>
 
 <!-- ================= RSVP ================= -->
 <section class="rsvp-section" id="rsvp">
   <div class="rsvp-wrap reveal">
     <p class="script">Celebrate with us</p>
-    <p class="deadline">Kindly RSVP by October 2, 2026</p>
+    <p class="deadline">Kindly RSVP by October 15, 2026</p>
 
     <form id="rsvpForm">
       <div class="field">
