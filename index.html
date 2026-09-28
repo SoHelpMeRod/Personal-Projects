@@ -253,7 +253,20 @@
   .submit-btn:hover{ background:var(--wine-deep); }
   .submit-btn:active{ transform:scale(.98); }
   .submit-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .submit-btn:disabled{ opacity:.6; cursor:default; }
   .hint{ font-size:12px; color:#8a7275; text-align:center; margin-top:14px; }
+  .error-msg{
+    display:none; font-size:14px; color:#a33; text-align:center; margin-top:14px;
+  }
+  .error-msg.show{ display:block; }
+
+  /* honeypot field - hidden from real visitors, catches bots */
+  .hp-field{
+    position:absolute !important;
+    left:-9999px !important;
+    width:1px; height:1px;
+    overflow:hidden;
+  }
 
   .thankyou{
     display:none; text-align:center; padding:50px 20px;
@@ -376,8 +389,15 @@
         <input type="text" id="song" name="song" placeholder="Song title & artist">
       </div>
 
-      <button type="submit" class="submit-btn">RSVP now</button>
+      <!-- Honeypot: hidden from real visitors, bots tend to fill it in -->
+      <div class="field hp-field" aria-hidden="true">
+        <label for="website">Website</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">RSVP now</button>
       <p class="hint">Your response is shared only with Adriana &amp; Rodrigo.</p>
+      <p class="error-msg" id="errorMsg">Hmm, something went wrong sending that. Please try again in a moment.</p>
     </form>
 
     <div class="thankyou" id="thankyou">
@@ -411,34 +431,54 @@
     });
   });
 
-  // RSVP submit
+  // RSVP submit -> Google Sheet via Apps Script Web App
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgkZJgvzC49GL8DtwSfNM9L-2ZhzRSsCN6mK8_jyN9SofCxh5KLneODixq0bnl8IZA/exec';
+
   const form = document.getElementById('rsvpForm');
   const thankyou = document.getElementById('thankyou');
   const thankyouMsg = document.getElementById('thankyouMsg');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
 
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
+
+    // honeypot: if this hidden field got filled in, silently drop it (likely a bot)
+    const honeypot = document.getElementById('website').value.trim();
+    if(honeypot){
+      form.style.display = 'none';
+      thankyou.classList.add('show');
+      return;
+    }
+
     const name = document.getElementById('name').value.trim();
     const attending = form.querySelector('input[name="attending"]:checked')?.value;
     const song = document.getElementById('song').value.trim();
 
-    const entry = { name, attending, song, submittedAt: new Date().toISOString() };
-    const key = 'rsvp:' + Date.now() + ':' + Math.random().toString(36).slice(2,8);
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    errorMsg.classList.remove('show');
 
     try{
-      if(window.storage && window.storage.set){
-        await window.storage.set(key, JSON.stringify(entry), true);
-      }
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ name, attending, song })
+      });
+
+      thankyouMsg.textContent = attending === 'no'
+        ? `Thank you for letting us know, ${name || 'friend'} — you'll be missed!`
+        : `Thanks, ${name || 'friend'}! We've got your response and can't wait to celebrate with you.`;
+
+      form.style.display = 'none';
+      thankyou.classList.add('show');
     }catch(err){
       console.error('Could not save RSVP', err);
+      errorMsg.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'RSVP now';
     }
-
-    thankyouMsg.textContent = attending === 'no'
-      ? `Thank you for letting us know, ${name || 'friend'} — you'll be missed!`
-      : `Thanks, ${name || 'friend'}! We've got your response and can't wait to celebrate with you.`;
-
-    form.style.display = 'none';
-    thankyou.classList.add('show');
   });
 </script>
 </body>
